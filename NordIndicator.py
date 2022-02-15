@@ -20,6 +20,9 @@ import sys
 import getpass
 import requests
 import datetime
+from xml.dom import minidom
+import shutil
+
 
 def checkInternetConnection():
     try:
@@ -28,6 +31,20 @@ def checkInternetConnection():
         return False
     else:
         return True
+
+
+def checkPackage(package):
+    result = subprocess.run(['which', package],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+
+    stdout = result.stdout.decode("utf-8")
+
+    if stdout:
+        return True
+    else:
+        return False
+
 
 class NordVPN:
 
@@ -388,6 +405,7 @@ class VPNindicator:
         self.stopFlag = True
         self.updateThread.join()
         gtk.main_quit()
+
 
 if __name__ == "__main__":
     # Run
